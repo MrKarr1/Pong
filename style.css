@@ -22,7 +22,7 @@
     border: 2px solid #fff;
 }
 
-#ball {
+.ball {
     position: absolute;
     width: 15px;
     height: 15px;
@@ -30,6 +30,16 @@
     border-radius: 50%;
     left: 400px;
     top: 200px;
+}
+
+.ballcolor1{
+    background-color: rgb(255, 155, 155);
+}
+.ballcolor2{
+    background-color: rgb(255, 055, 055);
+}
+.ballcolor3{
+    background-color: rgb(255, 000, 000);
 }
 
 .paddle {
@@ -57,7 +67,6 @@
     transform: translateX(-50%);
     font-size: 24px;
 }
-
 
 
 .btnPlay .btnStop {

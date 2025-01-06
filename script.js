@@ -14,12 +14,13 @@ const paddleRight = document.querySelector("#paddle-right");
 const ball = document.querySelector("#ball");
 const scoreLeft = document.querySelector("#score-left")
 const scoreRight = document.querySelector("#score-right")
+const body = document.querySelector("body");
 
 
 // option //////////////////////////////////////////////////////////////////////////////
 const ballYX = 15;
 let speedBall = 1;
-let maxSpeedBall = 100;
+const maxSpeedBall = 10;
 const speedPaddle = 10;
 
 const plateauX = 800;
@@ -95,12 +96,9 @@ function mouvementBall() {
     speedBall;
     maxSpeedBall;
 
-    // cacule choc 
+    // cacule choc  
     let chocPaddleLeftUp = positionPaddleLeft + paddleY;
     let chocPaddleRighUp = positionPaddleRight + paddleY;
-    //let chocPaddleLeftDown = positionPaddleLeft + paddleY;
-    //let chocPaddleRighDown = positionPaddleRight + paddleY;
-
 
     if (positionBallX >= (plateauX - ballYX) || positionBallX <= 0) directionX = directionX * -1;
     if (positionBallY >= (plateauY - ballYX) || positionBallY <= 0) directionY = directionY * -1;
@@ -118,32 +116,34 @@ function mouvementBall() {
         if (speedBall > maxSpeedBall) speedBall = maxSpeedBall;
     };
 
-    // if (positionBallX >= 5 && positionBallX <= 10 && positionBallY >= positionPaddleLeft && positionBallY <= chocPaddleLeftDown) {
-    //     directionX = directionX * -1
-    //     directionY = directionY * -1
-    //     speedBall++
-    //     if (speedBall > 5) speedBall = 5;
-
-    // };
-    // if (positionBallX >= 775 && positionBallX <= 780 && positionBallY >= positionPaddleRight && positionBallY <= chocPaddleRighDown) {
-    //     directionX = directionX * -1
-    //     directionY = directionY * -1
-    //     speedBall++
-    //     if (speedBall > 5) speedBall = 5;
-    // };
-
-
     // scrore //////////////////////////////////////////////////////////////////////////////
-    if (positionBallX <= 0) {
+    if (positionBallX < 0) {
+        body.classList.add("body")
         counterScoreRight++
         scoreRight.textContent = counterScoreRight
-
-    }
-    if (positionBallX >= plateauX - ballYX) {
+    };
+    if (positionBallX > (plateauX - paddleX)) {
+        body.classList.add("body")
         counterScoreLeft++
         scoreLeft.textContent = counterScoreLeft
+
     };
 
+
+    // couleur ball //////////////////////////////////////////////////////////////////////////////
+    if (speedBall < 3) {
+        ball.classList.add("ball");
+    };
+    if (speedBall >= 3) {
+        ball.classList.add("ball", "ballcolor1");
+    };
+    if (speedBall >= 6) {
+        ball.classList.add("ball", "ballcolor2");
+    }; if (speedBall >= 9) {
+        ball.classList.add("ball", "ballcolor3");
+    };
+
+    // mouvement ball //////////////////////////////////////////////////////////////////////////////
     positionBallY += speedBall * directionY;
     positionBallX += speedBall * directionX;
     ball.style.left = positionBallX + 'px';
@@ -170,10 +170,9 @@ btnPlay.addEventListener('click', function () {
 // IA //////////////////////////////////////////////////////////////////////////////
 
 function ia() {
+    if (!play) return;
     positionPaddleLeft = positionBallY - (paddleY / 2);
     positionPaddleRight = positionBallY - (paddleY / 2);
-
-    if (!play) return;
     if (positionPaddleLeft >= 0 && positionPaddleLeft <= plateauY - paddleY) {
         paddleLeft.style.top = positionPaddleLeft + 'px'
     };
