@@ -21,7 +21,8 @@ let iaF = false;
 // option //////////////////////////////////////////////////////////////////////////////
 const ballYX = 15;
 let speedBall = 1;
-const maxSpeedBall = 10;
+const maxSpeedBall = 100;
+
 const speedPaddle = 10;
 
 const plateauX = 800;
@@ -100,38 +101,40 @@ function mouvementBall() {
     // cacule choc  
     let chocPaddleLeftUp = positionPaddleLeft + paddleY;
     let chocPaddleRighUp = positionPaddleRight + paddleY;
+    let choc = plateauX - (paddleX - ballYX);
+    let chocs = plateauX - paddleX;
 
     if (positionBallX >= (plateauX - ballYX) || positionBallX <= 0) directionX = directionX * -1;
     if (positionBallY >= (plateauY - ballYX) || positionBallY <= 0) directionY = directionY * -1;
 
     // choc ball paddle //////////////////////////////////////////////////////////////////////////////
-    if (positionBallX === 10 && positionBallY >= positionPaddleLeft && positionBallY <= chocPaddleLeftUp) {
+    if (positionBallX == 10 && positionBallY >= positionPaddleLeft && positionBallY <= chocPaddleLeftUp) {
         directionX *= -1
         speedBall++
         if (speedBall > maxSpeedBall) speedBall = maxSpeedBall;
 
     };
-    if (positionBallX === 775 && positionBallY >= positionPaddleRight && positionBallY <= chocPaddleRighUp) {
+    if (positionBallX == choc && positionBallY >= positionPaddleRight && positionBallY <= chocPaddleRighUp) {
         directionX *= -1
         speedBall++
         if (speedBall > maxSpeedBall) speedBall = maxSpeedBall;
     };
 
     // scrore //////////////////////////////////////////////////////////////////////////////
-    if (positionBallX < 0) { 
+    if (positionBallX < 0) {
         counterScoreRight++
         scoreRight.textContent = counterScoreRight
-        body.classList.add("body"); 
+        body.classList.add("body");
         setTimeout(() => {
-            body.classList.remove("body"); 
+            body.classList.remove("body");
         }, 500);
     };
-    if (positionBallX >= (plateauX - paddleX)) {
+    if (positionBallX >= chocs) {
         counterScoreLeft++
         scoreLeft.textContent = counterScoreLeft
-        body.classList.add("body"); 
+        body.classList.add("body");
         setTimeout(() => {
-            body.classList.remove("body"); 
+            body.classList.remove("body");
         }, 500);
 
     };
@@ -139,12 +142,12 @@ function mouvementBall() {
 
 
     // couleur ball //////////////////////////////////////////////////////////////////////////////
-ball.className = ""; // Réinitialise les classes
-ball.classList.add("ball");
+    ball.className = ""; // Réinitialise les classes
+    ball.classList.add("ball");
 
-if (speedBall >= 3) ball.classList.add("ballcolor1");
-if (speedBall >= 6) ball.classList.add("ballcolor2");
-if (speedBall >= 9) ball.classList.add("ballcolor3");
+    if (speedBall >= 3) ball.classList.add("ballcolor1");
+    if (speedBall >= 6) ball.classList.add("ballcolor2");
+    if (speedBall >= 9) ball.classList.add("ballcolor3");
 
     // mouvement ball //////////////////////////////////////////////////////////////////////////////
     positionBallY += speedBall * directionY;
@@ -156,7 +159,7 @@ if (speedBall >= 9) ball.classList.add("ballcolor3");
 };
 
 
-// bourron play/pause //////////////////////////////////////////////////////////////////////////////
+// boutton play/pause //////////////////////////////////////////////////////////////////////////////
 let play = false;
 const btnPlay = document.querySelector('#btnPlay')
 const btnStop = document.querySelector('#btnStop')
