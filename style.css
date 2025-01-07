@@ -11,7 +11,8 @@
 }
 
 .body {
-    transition: background-color 1s ease;
+    background-color: #fff;
+    transition: background-color 0.5s;
 }
 
 #game {

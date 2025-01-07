@@ -15,6 +15,7 @@ const ball = document.querySelector("#ball");
 const scoreLeft = document.querySelector("#score-left")
 const scoreRight = document.querySelector("#score-right")
 const body = document.querySelector("body");
+let iaF = false;
 
 
 // option //////////////////////////////////////////////////////////////////////////////
@@ -117,31 +118,33 @@ function mouvementBall() {
     };
 
     // scrore //////////////////////////////////////////////////////////////////////////////
-    if (positionBallX < 0) {
-        body.classList.add("body")
+    if (positionBallX < 0) { 
         counterScoreRight++
         scoreRight.textContent = counterScoreRight
+        body.classList.add("body"); 
+        setTimeout(() => {
+            body.classList.remove("body"); 
+        }, 500);
     };
-    if (positionBallX > (plateauX - paddleX)) {
-        body.classList.add("body")
+    if (positionBallX >= (plateauX - paddleX)) {
         counterScoreLeft++
         scoreLeft.textContent = counterScoreLeft
+        body.classList.add("body"); 
+        setTimeout(() => {
+            body.classList.remove("body"); 
+        }, 500);
 
     };
+
 
 
     // couleur ball //////////////////////////////////////////////////////////////////////////////
-    if (speedBall < 3) {
-        ball.classList.add("ball");
-    };
-    if (speedBall >= 3) {
-        ball.classList.add("ball", "ballcolor1");
-    };
-    if (speedBall >= 6) {
-        ball.classList.add("ball", "ballcolor2");
-    }; if (speedBall >= 9) {
-        ball.classList.add("ball", "ballcolor3");
-    };
+ball.className = ""; // Réinitialise les classes
+ball.classList.add("ball");
+
+if (speedBall >= 3) ball.classList.add("ballcolor1");
+if (speedBall >= 6) ball.classList.add("ballcolor2");
+if (speedBall >= 9) ball.classList.add("ballcolor3");
 
     // mouvement ball //////////////////////////////////////////////////////////////////////////////
     positionBallY += speedBall * directionY;
@@ -162,6 +165,8 @@ btnPlay.addEventListener('click', function () {
     if (play) {
         mouvementBall();
         mouve();
+    } if (counterScoreLeft === 5 || counterScoreRight === 5) {
+        play = false;
     }
 });
 
@@ -170,6 +175,7 @@ btnPlay.addEventListener('click', function () {
 // IA //////////////////////////////////////////////////////////////////////////////
 
 function ia() {
+    iaF = true;
     if (!play) return;
     positionPaddleLeft = positionBallY - (paddleY / 2);
     positionPaddleRight = positionBallY - (paddleY / 2);
@@ -194,3 +200,9 @@ btnIa.addEventListener('click', function () {
 
 
 
+// fin de partie //////////////////////////////////////////////////////////////////////////////
+
+// if (counterScoreLeft === 5 || counterScoreRight === 5 && iaF === false) {
+//     mouvementBall = false;
+//     mouve = false;
+// };
